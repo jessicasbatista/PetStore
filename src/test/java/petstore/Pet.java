@@ -58,4 +58,44 @@ public class Pet {
                 .body("category.name", is("dog"))
         ;
     }
+
+    @Test(priority = 2)
+    public void alterarPet() throws IOException {
+        String jsonBody = lerJson("db/pet2.json");
+
+        given() // Dado
+                .contentType("application/json")
+                .log().all()
+                .body(jsonBody)
+        .when() // Quando
+                .post(uri)
+        .then() // Então
+                .log().all()
+                .statusCode(200)
+                .body("name", is("Lessie"))
+                .body("status", is("sold"))
+                .body("category.name", is("dog"))
+        ;
+
+    }
+
+    @Test(priority = 3)
+    public void excluirPet() throws IOException {
+        String petId = "2111198917";
+
+        given() // Dado
+                .contentType("application/json")
+                .log().all()
+        .when() // Quando
+                .delete(uri + "/" + petId)
+        .then() // Então
+                .log().all()
+                .statusCode(200)
+                .body("code", is(200))
+                .body("type", is("unknown"))
+                .body("message", is(petId))
+
+
+        ;
+    }
 }
