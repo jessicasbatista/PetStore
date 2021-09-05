@@ -19,7 +19,7 @@ public class Pet {
     }
 
     //Incluir - Create - Post
-    @Test
+    @Test(priority = 0)
     public void incluirPet() throws IOException {
         String jsonBody = lerJson("db/pet1.json");
 
@@ -37,6 +37,23 @@ public class Pet {
                 .log().all()
                 .statusCode(200)
                 .body("name", is("Lessie"))
+                .body("status", is("available"))
+                .body("category.name", is("dog"))
+        ;
+    }
+
+    @Test(priority = 1)
+    public void consultarPet(){
+        String petId = "2111198917";
+
+        given()
+                .contentType("application/json")
+                .log().all()
+        .when()
+                .get(uri + "/" + petId)
+        .then()
+                .log().all()
+                .statusCode(200)
                 .body("status", is("available"))
                 .body("category.name", is("dog"))
         ;
