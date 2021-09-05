@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
 
 public class Pet {
 
@@ -34,6 +35,8 @@ public class Pet {
         .then() // Então
                 .log().all()
                 .statusCode(200)
+                .body("name", is("Lessie"))
+                .body("status", is("available"))
         ;
     }
 }
